@@ -75,5 +75,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+  .media-content {
+    overflow-x: unset;
+  }
 </style>
