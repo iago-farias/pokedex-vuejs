@@ -13,7 +13,7 @@
         <div class="media">
           <div class="media-content">
             <p class="title is-4">{{number}} - {{name | nameFormat}}</p>
-            <p class="subtitle is-6">Tipo: {{pokemon.type}}</p>
+            <p class="subtitle is-6">Tipo: <TypeTag v-if="!isLoading" :type="pokemon.type"/></p>
           </div>
         </div>
         <div class="content">
@@ -27,9 +27,12 @@
 <script>
 import axios from "axios";
 
+import TypeTag from './TypeTag.vue';
+
 export default {
   created: async function() {
     const response = await axios.get(this.url);
+    this.isLoading = false;
 
     this.pokemon.type = response.data.types[0].type.name;
     this.pokemon.spriteFront = response.data.sprites.front_default;
@@ -38,6 +41,7 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       isFront: true,
       currentImage: '',
       pokemon: {
@@ -46,6 +50,9 @@ export default {
         spriteBack: '',
       }
     }
+  },
+  components: {
+    TypeTag
   },
   props: {
     number: Number,
